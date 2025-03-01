@@ -12,6 +12,9 @@ importers:
         specifier: ^6.7.14
         version: 6.7.14
     devDependencies:
+      '@antfu/ni':
+        specifier: ^23.3.1
+        version: 23.3.1
       '@arethetypeswrong/cli':
         specifier: ^0.15.4
         version: 0.15.4
@@ -44,6 +47,10 @@ packages:
 
   '@andrewbranch/untar.js@1.0.3':
     resolution: {integrity: sha512-Jh15/qVmrLGhkKJBdXlK1+9tY4lZruYjsgkDFj08ZmDiWVBLJcqkok7Z0/R0In+i1rScBpJlSvrTS2Lm41Pbnw==}
+
+  '@antfu/ni@23.3.1':
+    resolution: {integrity: sha512-C90iyzm/jLV7Lomv2UzwWUzRv9WZr1oRsFRKsX5HjQL4EXrbi9H/RtBkjCP+NF+ABZXUKpAa4F1dkoTaea4zHg==}
+    hasBin: true
 
   '@arethetypeswrong/cli@0.15.4':
     resolution: {integrity: sha512-YDbImAi1MGkouT7f2yAECpUMFhhA1J0EaXzIqoC5GGtK0xDgauLtcsZezm8tNq7d3wOFXH7OnY+IORYcG212rw==}
@@ -1727,6 +1734,8 @@ packages:
 snapshots:
 
   '@andrewbranch/untar.js@1.0.3': {}
+
+  '@antfu/ni@23.3.1': {}
 
   '@arethetypeswrong/cli@0.15.4':
     dependencies:
