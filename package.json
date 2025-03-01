@@ -22,14 +22,14 @@
             "require": "./dist/index.cjs"
         }
     },
-    "homepage": "https://github.com/NorthSeacoder/extensions/blob/main/libs/starter/README.md",
+    "homepage": "https://github.com/NorthSeacoder/lib-starter/README.md",
     "bugs": {
-        "url": "https://github.com/NorthSeacoder/extensions/issues"
+        "url": "https://github.com/NorthSeacoder/lib-starter/issues"
     },
     "author": "NorthSeacoder",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/NorthSeacoder/extensions.git"
+        "url": "git+https://github.com/NorthSeacoder/lib-starter.git"
     },
     "license": "MIT",
     "files": [
