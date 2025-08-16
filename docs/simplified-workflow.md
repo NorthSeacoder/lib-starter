@@ -30,7 +30,7 @@ jobs:
 
     steps:
       - 安装依赖
-      - 运行 pnpm ci (包含 lint + format + typecheck + test + build)
+      - 运行 pnpm run ci (包含 lint + format + typecheck + test + build)
       - 检查导出配置 (仅 Node.js 20)
       - 上传覆盖率到 Codecov (仅 Node.js 20)
 ```
