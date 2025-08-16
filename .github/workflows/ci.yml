@@ -7,23 +7,21 @@ on:
     branches: [main, develop]
 
 jobs:
+  # 主要测试任务 - 只在 Ubuntu 上运行以节省 Actions 分钟数
   test:
-    name: Test on Node.js ${{ matrix.node-version }}
-    runs-on: ${{ matrix.os }}
+    name: Test & Build
+    runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [20, 22]
-        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Install pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 8
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -34,34 +32,74 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint
-        run: pnpm lint:check
+      # 合并所有检查到一个步骤，减少 Actions 开销
+      - name: Run all checks
+        run: |
+          echo "🔍 Running lint check..."
+          pnpm lint:check
 
-      - name: Format check
-        run: pnpm format:check
+          echo "🎨 Running format check..."
+          pnpm format:check
 
-      - name: Type check
-        run: pnpm typecheck
+          echo "📝 Running type check..."
+          pnpm typecheck
 
-      - name: Test
-        run: pnpm test:coverage
+          echo "🧪 Running tests with coverage..."
+          pnpm test:coverage
 
-      - name: Build
-        run: pnpm build
+          echo "🏗️ Running build..."
+          pnpm build
 
-      - name: Check exports
-        run: pnpm check-exports
+      # 只在 Node.js 20 上运行的额外检查
+      - name: Additional checks (Node.js 20 only)
+        if: matrix.node-version == 20
+        run: |
+          echo "📦 Checking exports..."
+          pnpm check-exports
 
       - name: Upload coverage to Codecov
-        if: matrix.os == 'ubuntu-latest' && matrix.node-version == 20
+        if: matrix.node-version == 20
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./coverage/lcov.info
           flags: unittests
           name: codecov-umbrella
           fail_ci_if_error: false
 
+  # 跨平台兼容性测试 - 仅在主分支运行以节省分钟数
+  cross-platform:
+    name: Cross-platform test
+    if: github.ref == 'refs/heads/main'
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+        node-version: [20]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      # 跨平台只运行核心测试
+      - name: Run core tests
+        run: |
+          pnpm test
+          pnpm build
+
+  # 发布任务
   release:
     name: Release
     runs-on: ubuntu-latest
@@ -74,10 +112,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Install pnpm
+      - name: Setup pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 8
 
       - name: Setup Node.js
         uses: actions/setup-node@v4

@@ -134,15 +134,32 @@
 
 - [ ] 更新 `README.md` 中的 CLI 使用示例
 
-#### 4.2 添加更多测试环境 | Add More Test Environments
+#### 4.2 调整 CI 策略 | Adjust CI Strategy
 
-- [ ] 修改 `.github/workflows/ci.yml`
-  ```yaml
-  strategy:
-    matrix:
-      node-version: [16, 18, 20, 22] # 添加更多 Node.js 版本
-      os: [ubuntu-latest, windows-latest, macos-latest]
-  ```
+**当前配置（优化版）**：
+
+- 主测试：Ubuntu + Node.js 20/22
+- 跨平台测试：仅在 main 分支运行
+- 节省 65% GitHub Actions 分钟数
+
+**如需完整测试矩阵**：
+
+```bash
+# 恢复完整 CI 配置
+mv .github/workflows/ci-full.yml.bak .github/workflows/ci-full.yml
+mv .github/workflows/ci.yml .github/workflows/ci-optimized.yml
+mv .github/workflows/ci-full.yml .github/workflows/ci.yml
+```
+
+**自定义测试矩阵**：
+
+```yaml
+# 修改 .github/workflows/ci.yml
+strategy:
+  matrix:
+    node-version: [18, 20, 22] # 添加更多 Node.js 版本
+    # 注意：每增加一个版本会增加 CI 分钟数使用
+```
 
 #### 4.3 配置发布策略 | Configure Release Strategy
 
