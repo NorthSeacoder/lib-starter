@@ -5,7 +5,13 @@ export default defineConfig([
   {
     entry: ['src/index.ts'],
     format: ['cjs', 'esm'],
-    dts: true,
+    dts: {
+      resolve: true,
+      // 为不同格式生成对应的类型声明文件
+      compilerOptions: {
+        moduleResolution: 'bundler',
+      },
+    },
     sourcemap: true,
     clean: true,
     splitting: false,
