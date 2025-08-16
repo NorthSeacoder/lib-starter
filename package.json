@@ -14,7 +14,7 @@
     "access": "public",
     "registry": "https://registry.npmjs.org/"
   },
-  "packageManager": "pnpm@10.2.1",
+  "packageManager": "pnpm@8.14.1",
   "bin": {
     "starter": "bin/starter.cjs"
   },
