@@ -1,25 +1,31 @@
-export type OutputType = 'json' | 'md' | 'xmind'
-
 /**
- * Options for the `processXMind()` function.
+ * Configuration options for the starter
  */
 export interface StarterOptions {
   /**
-   * The path to the XMind file to process.
+   * Input file or path to process
    */
-  inputFile: string
+  input?: string
   /**
-   * The types of output files to generate.
-   * Default: `['xmind']`
-   */
-  outputTypes?: OutputType[]
-  /**
-   * The directory to write the output files to.
+   * Output directory
    * Default: `'.'`
    */
-  outputDir?: string
+  output?: string
   /**
-   * An array of markers to filter the topics by.
+   * Enable verbose output
    */
-  filterMarkers: string[]
+  verbose?: boolean
+  /**
+   * Enable dry run mode
+   */
+  dryRun?: boolean
+}
+
+/**
+ * Result of a starter operation
+ */
+export interface StarterResult {
+  success: boolean
+  message?: string
+  data?: any
 }
