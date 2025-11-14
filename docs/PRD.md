@@ -90,11 +90,13 @@
 #### A. 模板管理（P0）
 
 - 支持本地模板 (`templates/`)
-- 支持远程模板（Git 仓库、npm 包）
-- 模板元信息（名称、描述、标签、版本）
+- 支持远程模板（Git 仓库）
+- 模板元信息（名称、描述、作者、版本）
 - 模板变量定义（JSON/TS）
 
-> 📘 详见《[远程模板仓库设计方案](./remote-template-registry.md)》与《[远程模板仓库 - 快速概览](./REMOTE-TEMPLATE-SUMMARY.md)》，获取完整架构与实施细节。
+> 📘 **简化方案**：采用轻量级设计，基于 Git 仓库管理模板，详见《[轻量级模板仓库方案](./template-repository-simple.md)》。
+>
+> 💡 如需完整功能方案（npm/checksum/签名等），可参考《[远程模板仓库设计方案](./remote-template-registry.md)》。
 
 #### B. CLI 初始化流程（P0）
 
