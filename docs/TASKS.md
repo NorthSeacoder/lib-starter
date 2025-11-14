@@ -8,15 +8,15 @@
 
 ## 任务概览
 
-| 阶段     | 内容              | 任务数 | 预计工时  | 状态      |
-| -------- | ----------------- | ------ | --------- | --------- |
-| Phase 0  | 预研与规划        | 3      | 4-5 天    | ⏳ 待开始 |
-| Phase 1  | 核心执行器 + 模板 | 5      | 2 周      | ⏳ 待开始 |
-| Phase 2  | CLI 交互 + 配置   | 5      | 2 周      | ⏳ 待开始 |
-| Phase 3  | 插件 + 进阶体验   | 6      | 2 周      | ⏳ 待开始 |
-| Phase 4  | 文档 + 生态 + CI  | 6      | 2 周      | ⏳ 待开始 |
-| Phase 5  | 发布准备 + 优化   | 5      | 2 周      | ⏳ 待开始 |
-| **合计** |                   | **30** | **12 周** |           |
+| 阶段     | 内容              | 任务数 | 预计工时     | 状态      |
+| -------- | ----------------- | ------ | ------------ | --------- |
+| Phase 0  | 预研与规划        | 4      | 1 周         | 🚧 进行中 |
+| Phase 1  | 核心执行器 + 模板 | 5      | 2 周         | ⏳ 待开始 |
+| Phase 2  | CLI 交互 + 配置   | 5      | 2 周         | ⏳ 待开始 |
+| Phase 3  | 插件 + 进阶体验   | 6      | 2 周         | ⏳ 待开始 |
+| Phase 4  | 文档 + 生态 + CI  | 8      | 3 周         | ⏳ 待开始 |
+| Phase 5  | 发布准备 + 优化   | 5      | 2 周         | ⏳ 待开始 |
+| **合计** |                   | **33** | **12-13 周** |           |
 
 ---
 
@@ -89,6 +89,30 @@
 **预计工时**: 1 天  
 **依赖**: P0-T0-2  
 **状态**: ⏳ 待开始
+
+---
+
+### P0-T0-4: 远程模板仓库方案设计
+
+**目标**: 明确远程模板仓库架构，为后续开发提供统一的实现蓝图
+
+**内容**:
+
+1. 梳理模板来源类型（官方、npm、GitHub、Git、自定义 Registry 等）
+2. 设计 TemplateLoader、TemplateRegistry、TemplateCache 等核心模块职责与接口
+3. 定义模板元数据规范（template.json）、registry.json 结构与 checksum 校验策略
+4. 制定安全策略、版本管理规则及企业私有仓库支持方案
+5. 输出实施路线图与阶段划分
+
+**产出物**:
+
+- `docs/remote-template-registry.md`
+
+**负责人**: Tech Lead  
+**预计工时**: 2 天  
+**依赖**: P0-T0-2  
+**状态**: ✅ 已完成  
+**备注**: 作为后续 Phase 4-5 远程模板落地的设计依据
 
 ---
 
@@ -700,39 +724,116 @@
 
 ---
 
-### P4-T4-4: 远程模板支持
+### P4-T4-4: 远程模板基础架构
 
-**目标**: 支持从远程仓库加载模板
+**目标**: 实现远程模板加载核心基础设施
 
 **内容**:
 
-1. 实现 Git 仓库克隆
-2. 实现 npm 包模板加载
-3. 实现模板版本管理
-4. 实现模板缓存
-5. 提供模板更新命令 (`template update`)
-6. 安全性校验（防止恶意代码）
+1. 实现 `TemplateLoader` 类（解析、加载、验证模板）
+2. 实现 `TemplateCache` 类（缓存管理、过期检测）
+3. 实现 `TemplateRegistry` 类（获取模板元信息）
+4. 支持官方模板、npm 包、GitHub 仓库三种来源
+5. 实现 Checksum 校验机制
+6. 实现基础安全扫描（可疑文件、代码模式）
 
 **产出物**:
 
-- `src/template/remote-loader.ts`
-- `src/template/cache-manager.ts`
+- `src/template/loader.ts`
+- `src/template/cache.ts`
+- `src/template/registry.ts`
+- `src/template/security.ts`
+- `src/types/template.ts`
 
 **负责人**: Senior Engineer  
-**预计工时**: 3 天  
+**预计工时**: 5 天  
 **依赖**: P4-T4-3  
 **状态**: ⏳ 待开始
 
 **验收标准**:
 
-- [ ] 支持 Git 和 npm 模板
-- [ ] 版本管理正确
-- [ ] 安全性校验通过
-- [ ] 单元测试覆盖率 ≥ 80%
+- [ ] 支持官方、npm、GitHub 三种模板来源
+- [ ] 缓存机制工作正常
+- [ ] Checksum 校验通过
+- [ ] 安全扫描基本功能
+- [ ] 单元测试覆盖率 ≥ 85%
+
+**参考**: `docs/remote-template-registry.md`
 
 ---
 
-### P4-T4-5: CI 增强
+### P4-T4-5: CLI 模板命令集成
+
+**目标**: 在 CLI 中集成模板管理命令
+
+**内容**:
+
+1. 实现 `template list` 命令（列出可用模板）
+2. 实现 `template search` 命令（搜索模板）
+3. 实现 `template info` 命令（查看模板详情）
+4. 实现 `template cache` 子命令（list/clear）
+5. 实现 `template add/remove` 命令（自定义模板）
+6. 实现 `template update` 命令（更新缓存）
+7. 在 `create` 命令中集成远程模板加载
+
+**产出物**:
+
+- `src/cli/commands/template.ts`
+- `src/cli/commands/create.ts` (更新)
+
+**负责人**: Engineer  
+**预计工时**: 3 天  
+**依赖**: P4-T4-4  
+**状态**: ⏳ 待开始
+
+**验收标准**:
+
+- [ ] 所有模板命令功能正常
+- [ ] CLI 交互友好
+- [ ] 错误处理完善
+- [ ] E2E 测试覆盖
+
+---
+
+### P4-T4-6: 官方模板仓库创建
+
+**目标**: 创建独立的官方模板仓库，实现模板与主仓库解耦
+
+**内容**:
+
+1. 创建 `@nsea/starter-templates` 仓库（Monorepo 结构）
+2. 迁移现有模板到独立 packages（library-default、cli-default、monorepo-default）
+3. 为每个模板添加 `template.json` 元信息
+4. 创建 `registry.json` 模板注册表
+5. 配置模板发布流程（发布到 npm）
+6. 配置 GitHub Releases 和 CDN
+7. 编写模板贡献指南
+
+**产出物**:
+
+- 新仓库: `https://github.com/NorthSeacoder/starter-templates`
+- npm 包: `@nsea/template-library-default`, `@nsea/template-cli-default`, etc.
+- `registry.json` (托管在 GitHub Pages 或 CDN)
+- `CONTRIBUTING.md` (模板贡献指南)
+
+**负责人**: Tech Lead + Engineers  
+**预计工时**: 4 天  
+**依赖**: P4-T4-4  
+**状态**: ⏳ 待开始
+
+**验收标准**:
+
+- [ ] 模板仓库结构规范
+- [ ] 至少 3 个官方模板可用
+- [ ] 模板发布到 npm
+- [ ] registry.json 可访问
+- [ ] 文档完整（README + 贡献指南）
+
+**参考**: `docs/remote-template-registry.md` 第 3 节
+
+---
+
+### P4-T4-7: CI 增强
 
 **目标**: 扩展 CI 流程，增强质量保障
 
@@ -765,7 +866,7 @@
 
 ---
 
-### P4-T4-6: Demo & 案例项目
+### P4-T4-8: Demo & 案例项目
 
 **目标**: 提供演示案例，帮助用户快速上手
 
@@ -785,7 +886,7 @@
 
 **负责人**: Product Owner + Engineers  
 **预计工时**: 2 天  
-**依赖**: P4-T4-1 ~ P4-T4-4  
+**依赖**: P4-T4-1 ~ P4-T4-7  
 **状态**: ⏳ 待开始
 
 **验收标准**:
