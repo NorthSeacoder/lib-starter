@@ -374,6 +374,7 @@ npm publish
 - 📘 **[仓库分析报告](./docs/REPO-ANALYSIS.md)** - 从多角度深入分析代码现状与优化方向
 - 📋 **[产品需求文档 (PRD)](./docs/PRD.md)** - 完整的产品定位、功能规划与里程碑
 - 🗂️ **[任务拆解文档](./docs/TASKS.md)** - 详细的开发任务与实施路线图
+- 🚀 **[仓库优化计划](./docs/OPTIMIZATION-PLAN.md)** - 先优化本仓库为 ts-lib，再扩展模板功能（推荐阅读）
 
 ### 技术设计 | Technical Design
 
