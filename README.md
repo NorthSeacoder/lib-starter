@@ -367,6 +367,27 @@ pnpm bumpp
 npm publish
 ```
 
+## 📚 文档 | Documentation
+
+### 核心文档 | Core Documents
+
+- 📘 **[仓库分析报告](./docs/REPO-ANALYSIS.md)** - 从多角度深入分析代码现状与优化方向
+- 📋 **[产品需求文档 (PRD)](./docs/PRD.md)** - 完整的产品定位、功能规划与里程碑
+- 🗂️ **[任务拆解文档](./docs/TASKS.md)** - 详细的开发任务与实施路线图
+- 🚀 **[仓库优化计划](./docs/OPTIMIZATION-PLAN.md)** - 先优化本仓库为 ts-lib，再扩展模板功能（推荐阅读）
+
+### 技术设计 | Technical Design
+
+- 📦 **[轻量级模板仓库方案](./docs/template-repository-simple.md)** - 简单实用的 Git 模板仓库方案（推荐）
+- 🎯 **[远程模板完整方案](./docs/remote-template-registry.md)** - 完整的多源模板架构（可选参考）
+
+### 开发指南 | Development Guides
+
+- 🔄 **[开发工作流](./docs/development-workflow.md)** - 开发、测试、发布流程
+- 📖 **[ESM/CJS 兼容性](./docs/esm-cjs-compatibility.md)** - 双格式构建最佳实践
+
+---
+
 ## 🤝 贡献指南 | Contributing
 
 ### 开发规范 | Development Standards
