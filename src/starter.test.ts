@@ -23,8 +23,8 @@ describe('starter', () => {
 
     it('should return success result with custom options', () => {
       const options: StarterOptions = {
-        name: 'test-project',
-        version: '1.0.0',
+        input: './test-project',
+        output: './dist',
       }
 
       const result = starter(options)
@@ -78,8 +78,8 @@ describe('starter', () => {
 
     it('should return success result with custom options', async () => {
       const options: StarterOptions = {
-        name: 'async-test-project',
-        version: '2.0.0',
+        input: './async-test-project',
+        output: './dist',
       }
 
       const result = await starterAsync(options)

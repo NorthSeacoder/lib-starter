@@ -26,7 +26,7 @@ describe('CLI Functions', () => {
     console: {
       log: mockConsoleLog,
       error: mockConsoleError,
-    } as Console,
+    } as unknown as Console,
     exit: mockExit as any,
   }
 

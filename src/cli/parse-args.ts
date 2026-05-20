@@ -1,9 +1,11 @@
 import process from 'node:process'
 import { Command } from 'commander'
-import chalk from 'chalk'
+import { Chalk } from 'chalk'
 import type { StarterOptions } from '../types/starter'
 import { version } from '../../package.json'
 import { ExitCode } from './exit-code'
+
+const chalk = new Chalk()
 
 /**
  * 解析后的命令行参数

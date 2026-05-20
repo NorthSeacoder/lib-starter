@@ -1,10 +1,12 @@
 import process from 'node:process'
-import chalk from 'chalk'
+import { Chalk } from 'chalk'
 import { version as packageVersion } from '../../package.json'
 import { starterAsync } from '../starter'
 import { ExitCode } from './exit-code'
 import { parseArgs } from './parse-args'
 import { classifyError } from '../utils/error-handler'
+
+const chalk = new Chalk()
 
 // 依赖注入接口，便于测试
 export interface CliDependencies {

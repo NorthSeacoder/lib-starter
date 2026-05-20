@@ -1,44 +1,30 @@
 import js from '@eslint/js'
-import typescript from '@typescript-eslint/eslint-plugin'
-import typescriptParser from '@typescript-eslint/parser'
-import prettier from 'eslint-plugin-prettier'
-import prettierConfig from 'eslint-config-prettier'
+import globals from 'globals'
+import eslintConfigPrettier from 'eslint-config-prettier'
+import tseslint from 'typescript-eslint'
 
-export default [
+export default tseslint.config(
+  {
+    ignores: ['dist/', 'node_modules/', 'coverage/', '*.config.js', '*.config.ts'],
+  },
   js.configs.recommended,
-  prettierConfig, // 禁用与 Prettier 冲突的规则
+  ...tseslint.configs.recommended,
+  ...tseslint.configs.recommendedTypeChecked,
+  eslintConfigPrettier,
   {
     files: ['**/*.ts', '**/*.tsx'],
     languageOptions: {
-      parser: typescriptParser,
-      parserOptions: {
-        ecmaVersion: 2022,
-        sourceType: 'module',
-        // 移除 project 配置，避免解析错误
-      },
+      ecmaVersion: 2022,
+      sourceType: 'module',
       globals: {
-        // 添加 Node.js 全局变量
-        console: 'readonly',
-        process: 'readonly',
-        Buffer: 'readonly',
-        BufferEncoding: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
-        global: 'readonly',
-        module: 'readonly',
-        require: 'readonly',
-        exports: 'readonly',
+        ...globals.node,
       },
-    },
-    plugins: {
-      '@typescript-eslint': typescript,
-      prettier: prettier,
+      parserOptions: {
+        projectService: true,
+        tsconfigRootDir: import.meta.dirname,
+      },
     },
     rules: {
-      // Prettier 集成
-      'prettier/prettier': 'error',
-
-      // 只使用基础的 TypeScript 规则，不需要类型信息
       '@typescript-eslint/no-unused-vars': [
         'warn',
         {
@@ -47,32 +33,26 @@ export default [
           ignoreRestSiblings: true,
         },
       ],
-      '@typescript-eslint/no-explicit-any': 'off', // 在模板中允许 any
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/ban-ts-comment': 'warn',
-      '@typescript-eslint/no-var-requires': 'warn',
-
-      // 禁用需要类型信息的规则
-      '@typescript-eslint/prefer-nullish-coalescing': 'off',
-      '@typescript-eslint/prefer-optional-chain': 'off',
-      '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
-
-      // 禁用基础 JS 规则，让 TypeScript 处理
-      'no-undef': 'off',
-      'no-unused-vars': 'off',
-      'no-redeclare': 'off',
-      'no-dupe-class-members': 'off',
+      '@typescript-eslint/no-floating-promises': 'off',
+      '@typescript-eslint/no-misused-promises': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off',
+      '@typescript-eslint/unbound-method': 'off',
     },
   },
   {
     files: ['**/*.test.ts', '**/*.spec.ts'],
+    extends: [tseslint.configs.disableTypeChecked],
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/explicit-function-return-type': 'off',
       '@typescript-eslint/no-unused-vars': 'off',
+      '@typescript-eslint/unbound-method': 'off',
     },
-  },
-  {
-    ignores: ['dist/', 'node_modules/', 'coverage/', '*.config.js', '*.config.ts'],
-  },
-]
+  }
+)

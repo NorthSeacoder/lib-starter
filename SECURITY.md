@@ -41,6 +41,6 @@ When using this library:
 This project includes:
 
 - Automated dependency vulnerability scanning
-- Code security analysis with ESLint security rules
 - Regular dependency updates via Dependabot
 - Secure CI/CD pipeline with minimal permissions
+- Trusted publishing support via GitHub Actions OIDC / npm Trusted Publisher

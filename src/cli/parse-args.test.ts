@@ -1,6 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import { parseArgs } from './parse-args'
-import type { ParsedArgs } from './parse-args'
 
 // Mock dependencies
 vi.mock('node:process', () => ({
@@ -11,15 +10,16 @@ vi.mock('node:process', () => ({
 }))
 
 vi.mock('chalk', () => ({
-  default: {
-    bold: Object.assign(
-      vi.fn((text) => text),
+  Chalk: class {
+    bold = Object.assign(
+      vi.fn((text: string) => text),
       {
-        cyan: vi.fn((text) => text),
+        cyan: vi.fn((text: string) => text),
       }
-    ),
-    gray: vi.fn((text) => text),
-    red: vi.fn((text) => text),
+    )
+
+    gray = vi.fn((text: string) => text)
+    red = vi.fn((text: string) => text)
   },
 }))
 

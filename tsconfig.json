@@ -34,14 +34,13 @@
     "declarationMap": true,
 
     /* 路径映射 */
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/types": ["src/types"],
-      "@/utils": ["src/utils"],
-      "@/cli": ["src/cli"]
+      "@/*": ["./src/*"],
+      "@/types": ["./src/types"],
+      "@/utils": ["./src/utils"],
+      "@/cli": ["./src/cli"]
     }
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist", "coverage", "**/*.test.ts", "**/*.spec.ts"]
+  "include": ["src/**/*", "test/**/*", "types/**/*.d.ts"],
+  "exclude": ["node_modules", "dist", "coverage"]
 }
